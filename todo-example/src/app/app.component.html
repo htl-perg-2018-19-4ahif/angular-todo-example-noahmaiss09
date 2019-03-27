@@ -1,0 +1,59 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<!doctype html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+    <mat-button-toggle-group>
+        <mat-button-toggle value="All" checked (click)="loadTodos()" (click)="filter = 0" >
+          <p>All</p> 
+        </mat-button-toggle>
+        <mat-button-toggle (click)="loadTodos()" (click)="filter = 1">
+          <p>Done</p> 
+        </mat-button-toggle>
+        <mat-button-toggle (click)="loadTodos()" (click)="filter = 2">
+          <p>Undone</p> 
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="personName" (valueChange)="loadTodos()" >
+          <mat-option value=""></mat-option>
+          <mat-option *ngFor="let person of people;" value={{person.name}}>{{ person.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-expansion-panel *ngFor="let todo of todos;">
+      <mat-expansion-panel-header>
+        <mat-panel-title [ngClass]="todo.done == false || todo.done == null ? 'red' : 'green' "> {{ todo.description }} </mat-panel-title >
+        <mat-panel-description> {{ todo.id }} </mat-panel-description>
+      </mat-expansion-panel-header>
+      {{ todo.assignedTo }}
+      <mat-action-row>
+        <button mat-button (click)="deleteToDo(todo.id)">Delete</button>
+        <button mat-button >Edit</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-card>
+        <mat-card-title>
+          New Task
+        </mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="Description" [(ngModel)]="newDescription">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="newPersonName">
+              <mat-option *ngFor="let person of people;" value={{person.name}}>{{ person.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="createToDo()">
+          Create!
+        </button>
+    </mat-card>
+
+    <p>{{ personName }}</p>
+  </body>
+</html>
